@@ -15,6 +15,7 @@ class ChatRequest(BaseModel):
     """Chat request model."""
 
     message: str
+    user_id: Optional[str] = None  # 用户唯一标识
     history: Optional[List[ChatMessage]] = None
 
 

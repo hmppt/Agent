@@ -2,10 +2,23 @@ import { useState, useCallback, useRef } from 'react';
 import type { Message } from '../types';
 import { sendChatMessage } from '../services/api';
 
+// 生成唯一的用户 ID（持久化到 localStorage）
+const getOrCreateUserId = (): string => {
+  let userId = localStorage.getItem('chat_user_id');
+  if (!userId) {
+    userId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    localStorage.setItem('chat_user_id', userId);
+  }
+  return userId;
+};
+
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // 获取或创建用户 ID
+  const userId = useRef(getOrCreateUserId());
 
   const messagesRef = useRef(messages);
 
@@ -53,6 +66,7 @@ export function useChat() {
         await sendChatMessage(
           {
             message: content,
+            user_id: userId.current,  // 添加用户 ID
             history,
           },
           {

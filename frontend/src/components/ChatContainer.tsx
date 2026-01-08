@@ -1,12 +1,15 @@
 import { useEffect, useRef } from 'react';
 import type { Message } from '../types';
 import { ChatMessage } from './ChatMessage';
+import { WelcomeScreen } from './WelcomeScreen';
+import { TypingIndicator } from './TypingIndicator';
 
 interface ChatContainerProps {
   messages: Message[];
+  isLoading: boolean;
 }
 
-export function ChatContainer({ messages }: ChatContainerProps) {
+export function ChatContainer({ messages, isLoading }: ChatContainerProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -18,18 +21,21 @@ export function ChatContainer({ messages }: ChatContainerProps) {
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-4">
+    <div className="flex-1 overflow-y-auto">
       {messages.length === 0 ? (
-        <div className="flex items-center justify-center h-full text-gray-400">
-          <p>开始对话吧！</p>
-        </div>
+        <WelcomeScreen />
       ) : (
-        <>
-          {messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
+        <div className="min-h-full">
+          {messages.map((message, index) => (
+            <ChatMessage
+              key={message.id}
+              message={message}
+              isLastMessage={index === messages.length - 1}
+            />
           ))}
+          {isLoading && <TypingIndicator />}
           <div ref={messagesEndRef} />
-        </>
+        </div>
       )}
     </div>
   );

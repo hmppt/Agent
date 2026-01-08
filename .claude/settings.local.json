@@ -5,7 +5,14 @@
       "Bash(uv run python:*)",
       "Bash(uv sync:*)",
       "Bash(uv run:*)",
-      "Bash(/Users/wangrensong/Project/Agent/backend/.venv/bin/python:*)"
+      "Bash(/Users/wangrensong/Project/Agent/backend/.venv/bin/python:*)",
+      "Bash(backend/.venv/bin/python:*)",
+      "Bash(npm run build)",
+      "Bash(uv add:*)",
+      "Bash(npm install:*)",
+      "Bash(lsof:*)",
+      "Bash(npx tailwindcss init:*)",
+      "Bash(xargs:*)"
     ]
   }
 }

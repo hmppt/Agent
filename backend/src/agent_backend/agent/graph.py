@@ -65,13 +65,39 @@ class ChatAgent:
                         yield message.content
 
 
-# Global agent instance
-_agent_instance = None
+# Global agent instance (singleton pattern)
+_agent_instance: ChatAgent | None = None
+_initialized: bool = False
 
 
 def get_agent() -> ChatAgent:
-    """Get or create the global agent instance."""
-    global _agent_instance
-    if _agent_instance is None:
+    """
+    Get or create the global agent instance.
+
+    Uses singleton pattern to ensure only one agent instance exists.
+    The agent is initialized on first call and reused for all subsequent calls.
+
+    Returns:
+        ChatAgent: The global chat agent instance
+    """
+    global _agent_instance, _initialized
+
+    if not _initialized:
+        # Ensure initialization happens only once
         _agent_instance = ChatAgent()
+        _initialized = True
+
     return _agent_instance
+
+
+def reset_agent() -> None:
+    """
+    Reset the global agent instance.
+
+    WARNING: This should only be used in tests!
+    Resets the agent to None, allowing a new instance to be created
+    on the next call to get_agent().
+    """
+    global _agent_instance, _initialized
+    _agent_instance = None
+    _initialized = False

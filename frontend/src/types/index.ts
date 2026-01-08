@@ -9,6 +9,7 @@ export interface Message {
 /** API request/response types. */
 export interface ChatRequest {
   message: string;
+  user_id?: string;  // 用户唯一标识
   history?: Array<{ role: string; content: string }>;
 }
 

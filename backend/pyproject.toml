@@ -43,3 +43,9 @@ testpaths = ["tests"]
 [tool.hatch.build.targets.wheel]
 packages = ["src/agent_backend"]
 
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+]
+

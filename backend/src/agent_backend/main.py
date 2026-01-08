@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from agent_backend.config import get_settings
 from agent_backend.api import chat_router
+from agent_backend.agent import get_agent
 
 
 @asynccontextmanager
@@ -15,6 +16,9 @@ async def lifespan(app: FastAPI):
     """Lifespan context manager."""
     # Startup
     print("Starting Agent Backend API...")
+    print("Initializing Agent...")
+    _ = get_agent()  # 预热 Agent，避免第一个用户请求等待
+    print("Agent ready!")
     yield
     # Shutdown
     print("Shutting down Agent Backend API...")
